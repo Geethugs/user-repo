@@ -1,0 +1,236 @@
+<main>
+  <div class="container">
+    <form [formGroup]="registrationForm" (submit)="saveData(registrationForm)">
+      <section>
+        <div class="row p-3">
+          <div class="col-md-12 text-center">
+            <h3>Registration</h3>
+          </div>
+        </div>
+      </section>
+      <div class="row mt-2">
+        <div class="col-md-3">
+          <img *ngIf="showImage" class="image-style mb-3" [src]="displayImage" />
+          <div>
+            <input type="file" accept="image/*" #fileInput (change)="selectedFile($event)" class="display"
+              name="image" />
+            <small><a class="image-border" (click)="fileInput.click()">Upload Image</a></small>
+          </div>
+        </div>
+        <div class="border-style"></div>
+        <div class="col-md-8 ml-3">
+
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Name</label>
+            </div>
+            <div class="col-md-5">
+              <input type="text" formControlName="firstName" placeholder="First Name" class="form-control"
+                maxlength="20">
+              <div
+                *ngIf="registrationForm.controls.firstName.errors?.required && registrationForm.controls.firstName.touched"
+                class="required">
+                *Required
+              </div>
+              <div
+                *ngIf="registrationForm.controls.firstName.errors?.pattern && registrationForm.controls.firstName.touched"
+                class="required">
+                Only alphabets are allowed
+              </div>
+            </div>
+            <div class=" col-md-5">
+              <input type="text" formControlName="lastName" placeholder="Last Name" class="form-control">
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Age</label>
+            </div>
+            <div class="col-md-10">
+              <mat-slider (change)="ageRange($event)" formControlName="age" thumbLabel [displayWith]="formatLabel" tickInterval="1000" min="1"
+                max="100"></mat-slider>
+              <!-- <input type="text" formControlName="age" placeholder="Age" class="form-control"> -->
+              <div *ngIf="registrationForm.controls.age.errors?.required && registrationForm.controls.age.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Email</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" formControlName="email" placeholder="Email" class="form-control">
+              <div *ngIf="registrationForm.controls.email.errors?.required && registrationForm.controls.email.touched"
+                class="required">
+                *Required
+              </div>
+              <div *ngIf="registrationForm.controls.email.errors?.email && registrationForm.controls.email.touched"
+                class="required">
+                *Invalid Email
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Tel</label>
+            </div>
+            <div class="col-md-10">
+              <p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" formControlName="phone"></p-inputMask>
+              <!-- <input type="number" placeholder="Phone Number" formControlName="phone" class="form-control"> -->
+              <div *ngIf="registrationForm.controls.phone.errors?.required && registrationForm.controls.phone.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">State</label>
+            </div>
+            <div class="col-md-10">
+              <select class="form-control" formControlName="state">
+                <option value="">State</option>
+                <option value="Kerala">Kerala</option>
+                <option value="Tamilnadu">TamilNadu</option>
+                <option value="Karnataka">Karnataka</option>
+              </select>
+              <div *ngIf="registrationForm.controls.state.errors?.required && registrationForm.controls.state.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Country</label>
+            </div>
+            <div class="col-md-10">
+              <select class="form-control" formControlName="country">
+                <option value="">Country</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+              </select>
+              <div
+                *ngIf="registrationForm.controls.country.errors?.required && registrationForm.controls.country.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Address</label>
+            </div>
+            <div class="col-md-10">
+              <select class="form-control" formControlName="address" (change)="onAddressChange()">
+                <option value="" selected>Address</option>
+                <option value="H">Home</option>
+                <option value="C">Company</option>
+              </select>
+              <div
+                *ngIf="registrationForm.controls.address.errors?.required && registrationForm.controls.address.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group" *ngIf="addressValue">
+            <div class="col-md-2">
+              <label class="control-label">Address 1</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" placeholder="Address 1" formControlName="address1" class="form-control">
+              <div
+                *ngIf="registrationForm.controls.address1.errors?.required && registrationForm.controls.address1.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+
+          </div>
+          <div class="row form-group" *ngIf="addressValue">
+            <div class="col-md-2">
+              <label class="control-label">Address 2</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" placeholder="Address 2" formControlName="address2" class="form-control">
+              <div
+                *ngIf="registrationForm.controls.address2.errors?.required && registrationForm.controls.address2.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+          </div>
+          <div class="row form-group" *ngIf="companyAddress">
+            <div class="col-md-2">
+              <label class="control-label">Company Address 1</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" placeholder="Company Address 1" formControlName="companyAddress1" class="form-control">
+              <div
+                *ngIf="registrationForm.controls.companyAddress1.errors?.required && registrationForm.controls.companyAddress1.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+          </div>
+          <div class="row form-group" *ngIf="companyAddress">
+            <div class="col-md-2">
+              <label class="control-label">Company Address 2</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" placeholder="Company Address 2" formControlName="companyAddress2" class="form-control">
+              <div
+                *ngIf="registrationForm.controls.companyAddress2.errors?.required && registrationForm.controls.companyAddress2.touched"
+                class="required">
+                *Required
+              </div>
+            </div>
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+              <label class="control-label">Interests</label>
+            </div>
+            <div class="col-md-10">
+              <p-multiSelect formControlName="interest" display="chip" [options]="sports" optionLabel="name">
+              </p-multiSelect>
+              <div
+                *ngIf="registrationForm.controls.interest.errors?.required && registrationForm.controls.interest.touched"
+                class="required">
+                *Required
+              </div>
+
+            </div>
+
+          </div>
+          <div class="row form-group">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-10">
+              <div class="row">
+                <div class="col-md-1">
+                  <input type="checkbox" value="newsLetter">
+                </div>
+                <div class="col-md-11">
+                  <p>Subscribe to the newsletter</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary btn-sm" [disabled]="registrationForm.invalid">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</main>

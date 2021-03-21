@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row p-3">
+    <div class="col-md-12 text-center">
+      <h3>Profile</h3>
+    </div>
+  </div>
+  <div class="row mt-2">
+    <div class="col-md-3">
+      <img *ngIf="showImage" class="image-style mb-3 ml-3" [src]="this.userDetails.imageUrl" />
+      <div>
+        <input type="file" accept="image/*" #fileInput (change)="selectedFile($event)" class="display" name="image" />
+        <small><a class="image-border" (click)="fileInput.click()" *ngIf="!showImage">Upload Image</a></small>
+      </div>
+      <div class="text-center p-3 text-decoration-underline">
+        <a (click)="editPhoto()">Edit Photo</a>
+      </div>
+      <div class="text-center text-decoration-underline">
+        <a (click)="editProfile()">Edit Profile</a>
+      </div>
+    </div>
+    <div class="border-style"></div>
+    <div class="col-md-8 ml-3">
+      <p>
+        I am <a class="text-primary">{{userDetails.firstName +' '+userDetails.lastName}}</a> and I am <a
+          class="text-primary">above {{userDetails.age}} years</a>
+        and you can send
+        your emails to
+        <a class="text-primary">{{userDetails.email}}</a> . I live in state of {{userDetails.state}}.I love to play
+        <a class="text-primary" *ngFor="let interests of this.userDetails.interest"> {{interests.name}}</a>
+        and
+        <a class="text-primary">reading books</a>.Please send me the news letters and reach out to me on my phone
+        <a class="text-primary">{{userDetails.phone}}</a>
+      </p>
+    </div>
+
+  </div>
+  <div class="text-center">
+    <button class="btn btn-primary btn-sm">Agree</button>
+  </div>
+</div>
